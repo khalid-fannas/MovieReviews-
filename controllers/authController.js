@@ -3,12 +3,15 @@ const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 
 exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, confirmPassword } = req.body;
 
-  if (!username || !email || !password) {
+  if (!username || !email || !password || confirmPassword) {
     return res.status(400).json({ Message: "Please fill in all fields." });
   }
 
+  if (password !== confirmPassword) {
+    return res.status(400).json({ Message: "Password do not match" });
+  }
   try {
     const [existingUser] = await db.query(
       "SELECT * FROM users WHERE email = ?",
