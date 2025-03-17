@@ -1,20 +1,23 @@
 const jwt = require("jsonwebtoken");
 
 exports.verifyToken = (req, res, next) => {
-  const authHeader = req.header("Authorization");
+  const token = req.cookies.token;
 
-  if (!authHeader) return res.status(401).json({ Message: "Access denied." });
-
-  const token = authHeader.split(" ")[1];
+  if (!token) {
+    res.locals.userIsLoggedIn = false;
+    return next();
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = decoded.user;
+    res.locals.userIsLoggedIn = true;
 
     next();
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ Message: "Server error." });
+    res.locals.userIsLoggedIn = false;
+    return next();
   }
 };

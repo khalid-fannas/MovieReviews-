@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie Review</title>
+
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+</head>
+
+<body class="bg-gradient-to-b from-black to-gray-950 text-white">
+    <%- include('partials/navbar') %>
+
+    <div class="relative w-full py-8" style="
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url('https://lionsgate.brightspotcdn.com/35/72/51b31d1045a2b4593871e545ebad/john-wick-movie-bg01-portrait.jpg');
+        background-size: cover;
+        background-position: start;
+        background-repeat: no-repeat;
+        min-height: 100vh;">
+        <div class="w-full max-w-7xl mx-auto">
+            <div class="flex justify-between items-center w-full pb-4 border-b border-gray-700 mb-6">
+                <h1 class="text-3xl font-bold text-center text-yellow-400 mb-2">John Wick</h1>
+                <div class="flex items-center gap-4">
+                    <p class="text-lg">2014</p>/
+                    <p class="text-lg">0h 59m</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-8 justify-between mb-12">
+                <div class="w-1/4 flex flex-col gap-4">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_.jpg"
+                        alt="Movie Poster" class="w-full rounded-lg shadow-xl transition-transform duration-300 hover:scale-105">
+                    <div class="flex flex-col items-start gap-4 w-full">
+                        <div class="w-full flex justify-between">
+                            <div class="flex items-center gap-2 text-yellow-400">
+                                <i class="fa-solid fa-star text-3xl"></i>
+                                <p class="text-xl font-semibold font-serif">4.5 / 5</p>
+                            </div>
+                            <div class="flex items-center gap-2 text-yellow-400">
+                                <i class="fa-solid fa-users text-lg"></i>
+                                <p class="text-xl font-semibold font-serif">1225</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-1">
+                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="1"></i>
+                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="2"></i>
+                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="3"></i>
+                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="4"></i>
+                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="5"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full max-w-7xl mx-auto">
+                    <div class="flex flex-col mb-6">
+                        <h2 class="text-2xl font-semibold text-yellow-300 pb-4">Description</h2>
+                        <p class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
+                            John Wick (2014) is an action-packed thriller that follows the story of a retired hitman seeking
+                            vengeance after a group
+                            of Russian mobsters break into his house, steal his car, and kill his beloved dog — a final gift from
+                            his recently
+                            deceased wife. Played by Keanu Reeves, John Wick embarks on a relentless quest for justice, unleashing
+                            his lethal skills
+                            and confronting his dark past. With stylish action sequences, intense fight scenes, and a well-crafted
+                            world of
+                            underground crime, John Wick is a high-octane movie that blends emotional depth with brutal combat. The
+                            film is known
+                            for its unique choreography, compelling character development, and iconic gun-fu action.
+                        </p>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-yellow-300 mb-4">John Wick
+                        Reviews</h2>
+                    <div class="flex flex-col gap-2">
+                        <div class="grid grid-cols-1 gap-6 w-full h-96 overflow-y-scroll">
+                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
+                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
+                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
+                                    fight
+                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
+                                    were
+                                    stunning!</p>
+                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
+                                    Doe</a>
+                            </div>
+                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
+                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
+                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
+                                    fight
+                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
+                                    were
+                                    stunning!</p>
+                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
+                                    Doe</a>
+                            </div>
+                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
+                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
+                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
+                                    fight
+                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
+                                    were
+                                    stunning!</p>
+                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
+                                    Doe</a>
+                            </div>
+                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
+                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
+                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
+                                    fight
+                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
+                                    were
+                                    stunning!</p>
+                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
+                                    Doe</a>
+                            </div>
+                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
+                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
+                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
+                                    fight
+                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
+                                    were
+                                    stunning!</p>
+                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
+                                    Doe</a>
+                            </div>
+                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
+                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
+                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
+                                    fight
+                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
+                                    were
+                                    stunning!</p>
+                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
+                                    Doe</a>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-4 my-4">
+                            <label for="comment" class="font-semibold text-xl">Add Comment</label>
+                            <div class="flex gap-4">
+                                <input type="text" name="comment" id="comment" placeholder="Add Comment....."
+                                    class="border p-2 w-1/2 rounded bg-gray-300 placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                <button
+                                    class="bg-gradient-to-t from-yellow-600 to-yellow-300 hover:from-yellow-500 hover:to-yellow-200 min-w-40 text-gray-800 font-bold rounded h-10 flex items-center justify-center">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('partials/categories.ejs')%>
+    </div>
+    </div>
+    <script>
+        const stars = document.querySelectorAll('.fa-star');
+        const ratingResult = document.getElementById('rating-result');
+
+        let currentRating = 0; 
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = star.getAttribute('data-rating');
+                currentRating = rating; 
+
+                stars.forEach(s => {
+                    if (s.getAttribute('data-rating') <= rating) {
+                        s.classList.add('text-yellow-500'); 
+                    } else {
+                        s.classList.remove('text-yellow-500'); 
+                    }
+                });
+            });
+
+            star.addEventListener('mouseenter', () => {
+                if (currentRating === 0) { 
+                    const rating = star.getAttribute('data-rating');
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-rating') <= rating) {
+                            s.classList.add('text-yellow-500');
+                        } else {
+                            s.classList.remove('text-yellow-500');
+                        }
+                    });
+                }
+            });
+
+            star.addEventListener('mouseleave', () => {
+                if (currentRating === 0) { 
+                    stars.forEach(s => {
+                        s.classList.remove('text-yellow-500'); 
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

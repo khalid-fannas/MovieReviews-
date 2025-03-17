@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Home</title>
+
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+
+  <body class="relative">
+    <%- include('partials/navbar.ejs') %>
+    <div class="relative w-full">
+      <section
+        class="bg-black text-white h-screen flex items-center justify-center"
+      >
+        <div
+          class="relative w-full max-w-7xl mx-auto h-full flex items-center justify-center"
+        >
+          <div
+            class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('/background-hero.jpg')"
+          ></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/100 to-black/30 bg-opacity-70"
+          ></div>
+
+          <div class="relative z-10 text-center px-6 sm:px-12 w-full mx-auto">
+            <h1
+              class="text-5xl sm:text-6xl font-extrabold mb-4 tracking-wide drop-shadow-lg"
+            >
+              The Best Movie Reviews to Choose the Perfect Film
+            </h1>
+            <p class="text-xl sm:text-2xl mb-6 drop-shadow-lg">
+              We are here to help you discover your favorite movies through
+              precise reviews and expert opinions, offering tips to choose films
+              that match your personal taste.
+            </p>
+            <a
+              href="/review"
+              class="bg-gradient-to-t from-yellow-300 to-yellow-600 text-black px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-400 hover:to-yellow-500 active:scale-95 active:translate-y-1"
+            >
+              Explore Our Reviews
+            </a>
+          </div>
+        </div>
+      </section>
+      <%- include('partials/categories.ejs')%>
+    </div>
+  </body>
+</html>

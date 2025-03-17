@@ -1,0 +1,258 @@
+<style>
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+    }
+
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0%);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.7s ease-out forwards;
+  }
+
+  .animate-slide-out {
+    animation: slideOut 0.7s ease-out forwards;
+  }
+</style>
+<div
+  id="menu-overlay"
+  class="absolute z-30 top-0 w-full h-screen bg-black bg-opacity-80 hidden"
+>
+  <div class="h-full w-full slideIn">
+    <div
+      id="menu-overlay1"
+      class="relative p-8 shadow-xl text-center h-auto min-h-96 border-t bg-gradient-to-bl from-black via-gray-950 to-gray-600/60"
+    >
+      <div class="absolute top-4 right-4">
+        <button
+          onclick="toggleMenu()"
+          class="flex justify-center items-center w-10 h-10 p-1 bg-gradient-to-b from-gray-950 to-gray-600 hover:bg-red-700 transition duration-300 ease-in-out rounded-full border-2 border-gray-400 shadow-lg transform hover:scale-110"
+        >
+          <i class="fas fa-xmark text-white text-xl"></i>
+        </button>
+      </div>
+      <div class="container mx-auto">
+        <div class="max-w-7xl mx-auto">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          >
+            <div>
+              <h3
+                class="text-xl font-bold mb-2 text-start border-b border-gray-700"
+              >
+                Action Movies
+              </h3>
+              <ul class="list-disc text-start pl-5 space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Mad Max: Fury Road</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >John Wick</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >The Dark Knight</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Die Hard</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Mission: Impossible – Fallout</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3
+                class="text-xl font-bold mb-2 text-start border-b border-gray-700"
+              >
+                Drama Movies
+              </h3>
+              <ul class="list-disc text-start pl-5 space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >The Shawshank Redemption</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Forrest Gump</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >The Pursuit of Happyness</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >12 Angry Men</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Schindler's List</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3
+                class="text-xl font-bold mb-2 text-start border-b border-gray-700"
+              >
+                Comedy Movies
+              </h3>
+              <ul class="list-disc text-start pl-5 space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Superbad</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >The Hangover</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Step Brothers</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >21 Jump Street</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Anchorman: The Legend of Ron Burgundy</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3
+                class="text-xl font-bold mb-2 text-start border-b border-gray-700"
+              >
+                Horror Movies
+              </h3>
+              <ul class="list-disc text-start pl-5 space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >The Conjuring</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >It</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Get Out</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Hereditary</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-white hover:underline hover:text-yellow-500"
+                    >Paranormal Activity</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleMenu() {
+    const menuOverlay = document.getElementById("menu-overlay");
+    const menuContent = document.getElementById("menu-overlay1");
+    const body = document.getElementsByTagName("body")[0];
+    body.classList.toggle("overflow-hidden");
+
+    if (menuOverlay.classList.contains("hidden")) {
+      menuOverlay.classList.remove("hidden");
+      menuContent.classList.remove("animate-slide-out");
+      menuContent.classList.add("animate-slide-in");
+    } else {
+      menuContent.classList.remove("animate-slide-in");
+      menuContent.classList.add("animate-slide-out");
+
+      setTimeout(() => {
+        menuOverlay.classList.add("hidden");
+      }, 700);
+    }
+  }
+</script>

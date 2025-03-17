@@ -1,17 +1,19 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../config/db");
+// const express = require("express");
 
 exports.register = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
 
-  if (!username || !email || !password || confirmPassword) {
-    return res.status(400).json({ Message: "Please fill in all fields." });
+  if (!username || !email || !password || !confirmPassword) {
+    return res.status(400).json({ message: "Please fill in all fields." });
   }
 
   if (password !== confirmPassword) {
-    return res.status(400).json({ Message: "Password do not match" });
+    return res.status(403).json({ message: "Passwords do not match" });
   }
+
   try {
     const [existingUser] = await db.query(
       "SELECT * FROM users WHERE email = ?",
@@ -19,22 +21,35 @@ exports.register = async (req, res) => {
     );
 
     if (existingUser.length > 0) {
-      return res.status(400).json({ Message: "Email already exists." });
+      return res.status(400).json({ message: "Email already exists." });
     }
 
     const salt = await bcrypt.genSalt(10);
-
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    await db.query(
+    const result = await db.query(
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
       [username, email, hashedPassword]
     );
 
-    res.status(201).json({ Message: "User registered successfully." });
+    const userId = result[0].insertId;
+
+    const payload = { user: { id: userId } };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    if (!token) res.status(500).json({ message: "Error generating token." });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
+
+    res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ Message: "Server error." });
+    res.status(500).json({ error: "Server error." });
   }
 };
 
@@ -42,7 +57,7 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ Message: "Please fill in all fields." });
+    return res.status(400).json({ message: "Please fill in all fields." });
   }
 
   try {
@@ -52,7 +67,7 @@ exports.login = async (req, res) => {
     );
 
     if (existingUser.length === 0) {
-      return res.status(404).json({ Message: "User not found." });
+      return res.status(404).json({ message: "User not found." });
     }
 
     const [user] = existingUser;
@@ -60,7 +75,7 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).json({ Message: "Invalid credentials." });
+      return res.status(401).json({ message: "Invalid credentials." });
     }
 
     const payload = { user: { id: user.id } };
@@ -69,11 +84,26 @@ exports.login = async (req, res) => {
       expiresIn: "1h",
     });
 
-    if (!token) res.status(500).json({ Message: "Error generating token." });
+    if (!token) res.status(500).json({ message: "Error generating token." });
 
-    res.status(200).json({ token });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
+
+    res.json({ message: "User logged in successfully." });
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ Message: "Server error." });
+    res.status(500).json({ error: error.message });
   }
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
+
+  res.redirect("/");
 };
