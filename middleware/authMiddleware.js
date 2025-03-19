@@ -4,8 +4,7 @@ exports.verifyToken = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    res.locals.userIsLoggedIn = false;
-    return next();
+    return res.status(403).json({ message: "Access is denied. No token" });
   }
 
   try {

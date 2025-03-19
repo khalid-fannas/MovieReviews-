@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Home</title>
+    <title>home</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,8 +15,9 @@
   </head>
 
   <body class="relative">
-    <%- include('partials/navbar.ejs') %>
-    <div class="relative w-full">
+    <%- include('partials/navbar') %>
+    <div class="relative w-full bg-black">
+      <%- include('partials/categories.ejs')%>
       <section
         class="bg-black text-white h-screen flex items-center justify-center"
       >
@@ -42,16 +43,23 @@
               precise reviews and expert opinions, offering tips to choose films
               that match your personal taste.
             </p>
+            <% if(userIsLoggedIn) { %>
             <a
               href="/review"
               class="bg-gradient-to-t from-yellow-300 to-yellow-600 text-black px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-400 hover:to-yellow-500 active:scale-95 active:translate-y-1"
+              >Explore Our Reviews</a
             >
-              Explore Our Reviews
-            </a>
+            <% } else { %>
+            <a
+              href="/guestReview"
+              class="bg-gradient-to-t from-yellow-300 to-yellow-600 text-black px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-400 hover:to-yellow-500 active:scale-95 active:translate-y-1"
+              >Explore Our Reviews</a
+            >
+            <% } %>
           </div>
         </div>
       </section>
-      <%- include('partials/categories.ejs')%>
+      <%- include('partials/topMovies.ejs')%>
     </div>
   </body>
 </html>

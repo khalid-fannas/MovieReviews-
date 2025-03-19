@@ -23,26 +23,28 @@
         min-height: 100vh;">
         <div class="w-full max-w-7xl mx-auto">
             <div class="flex justify-between items-center w-full pb-4 border-b border-gray-700 mb-6">
-                <h1 class="text-3xl font-bold text-center text-yellow-400 mb-2">John Wick</h1>
+                <h1 class="text-3xl font-bold text-center text-yellow-400 mb-2"><%= movie.title %></h1>
                 <div class="flex items-center gap-4">
-                    <p class="text-lg">2014</p>/
-                    <p class="text-lg">0h 59m</p>
+                    <p class="text-lg"><%= movie.release_year %></p>/
+                    <p class="text-lg"><% let hours=Math.floor(movie.duration / 60); let
+                        minutes=movie.duration % 60; %> <%= hours + "h " + minutes + "m"
+                        %></p>
                 </div>
             </div>
             
             <div class="flex gap-8 justify-between mb-12">
                 <div class="w-1/4 flex flex-col gap-4">
-                    <img src="https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_.jpg"
+                    <img src=<%= movie.image_url %>
                         alt="Movie Poster" class="w-full rounded-lg shadow-xl transition-transform duration-300 hover:scale-105">
                     <div class="flex flex-col items-start gap-4 w-full">
                         <div class="w-full flex justify-between">
                             <div class="flex items-center gap-2 text-yellow-400">
                                 <i class="fa-solid fa-star text-3xl"></i>
-                                <p class="text-xl font-semibold font-serif">4.5 / 5</p>
+                                <p class="text-xl font-semibold font-serif"><%= movie.average_rating %></p>
                             </div>
                             <div class="flex items-center gap-2 text-yellow-400">
                                 <i class="fa-solid fa-users text-lg"></i>
-                                <p class="text-xl font-semibold font-serif">1225</p>
+                                <p class="text-xl font-semibold font-serif"><%= movie.number_of_raters %></p>
                             </div>
                         </div>
                         <div class="flex space-x-1">
@@ -58,83 +60,31 @@
                     <div class="flex flex-col mb-6">
                         <h2 class="text-2xl font-semibold text-yellow-300 pb-4">Description</h2>
                         <p class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
-                            John Wick (2014) is an action-packed thriller that follows the story of a retired hitman seeking
-                            vengeance after a group
-                            of Russian mobsters break into his house, steal his car, and kill his beloved dog — a final gift from
-                            his recently
-                            deceased wife. Played by Keanu Reeves, John Wick embarks on a relentless quest for justice, unleashing
-                            his lethal skills
-                            and confronting his dark past. With stylish action sequences, intense fight scenes, and a well-crafted
-                            world of
-                            underground crime, John Wick is a high-octane movie that blends emotional depth with brutal combat. The
-                            film is known
-                            for its unique choreography, compelling character development, and iconic gun-fu action.
+                            <%= movie.description %>
                         </p>
                     </div>
-                    <h2 class="text-2xl font-semibold text-yellow-300 mb-4">John Wick
+                    <h2 class="text-2xl font-semibold text-yellow-300 mb-4"><%= movie.title %>
                         Reviews</h2>
                     <div class="flex flex-col gap-2">
                         <div class="grid grid-cols-1 gap-6 w-full h-96 overflow-y-scroll">
-                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
-                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
-                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
-                                    fight
-                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
-                                    were
-                                    stunning!</p>
-                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
-                                    Doe</a>
-                            </div>
-                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
-                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
-                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
-                                    fight
-                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
-                                    were
-                                    stunning!</p>
-                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
-                                    Doe</a>
-                            </div>
-                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
-                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
-                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
-                                    fight
-                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
-                                    were
-                                    stunning!</p>
-                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
-                                    Doe</a>
-                            </div>
-                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
-                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
-                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
-                                    fight
-                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
-                                    were
-                                    stunning!</p>
-                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
-                                    Doe</a>
-                            </div>
-                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
-                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
-                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
-                                    fight
-                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
-                                    were
-                                    stunning!</p>
-                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
-                                    Doe</a>
-                            </div>
-                            <div class="p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2">
-                                <p class="text-yellow-300 font-bold">A Cinematic Masterpiece!</p>
-                                <p class="text-gray-300 mt-2">An amazing movie in every way! The action is well-executed, and the
-                                    fight
-                                    scenes are incredibly thrilling. Keanu Reeves was fantastic as always, and the visual effects
-                                    were
-                                    stunning!</p>
-                                <a href="profile.html?user=JohnDoe" class="text-blue-400 hover:underline mt-2 block">Review by: John
-                                    Doe</a>
-                            </div>
+                            
+                            <% comments.forEach((comment , i)=>{ %>
+                                <div class="relative p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2 max-w-full break-words">
+                                    <div class="flex justify-between w-full items-center">
+                                        <a href="#" class="text-yellow-300 font-bold hover:underline">
+                                            <%= commenters[i] %>
+                                        </a>
+                                        <div>
+                                            <p class="text-gray-200 mt-2">
+                                                <%= new Date(commentTimes[i]).toLocaleDateString() %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-300 break-words">
+                                        <%= comment %>
+                                    </p>
+                                </div>
+                          <%  }) %>
                         </div>
                         <div class="flex flex-col gap-4 my-4">
                             <label for="comment" class="font-semibold text-xl">Add Comment</label>
