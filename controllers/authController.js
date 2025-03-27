@@ -28,13 +28,13 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const result = await db.query(
-      'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-      [username, email, hashedPassword]
+      'INSERT INTO users (name, email, password , role) VALUES (?, ?, ? , ?)',
+      [username, email, hashedPassword, 'user']
     );
 
     const userId = result[0].insertId;
 
-    const payload = { user: { id: userId } };
+    const payload = { user: { id: userId, role: 'user' } };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
@@ -82,7 +82,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials.' });
     }
 
-    const payload = { user: { id: user.id } };
+    const payload = { user: { id: user.id, role: user.role } };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '1h',

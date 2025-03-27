@@ -1,10 +1,10 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 exports.verifyToken = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    return res.status(403).json({ message: "Access is denied. No token" });
+    return res.status(403).json({ message: 'Access is denied. No token' });
   }
 
   try {
@@ -15,8 +15,15 @@ exports.verifyToken = (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     res.locals.userIsLoggedIn = false;
     return next();
   }
+};
+
+exports.isAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Access denied. Admins only!' });
+  }
+  next();
 };
