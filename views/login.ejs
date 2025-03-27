@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login</title>
-    <link rel="preconnect" href="https://fonts.bunny.net" />
-    <link
-      href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-  </head>
-
+<%- include('partials/head') %>
   <body class="bg-black flex items-center justify-center h-screen py-10">
     <div
       class="w-full max-w-4xl bg-black rounded-lg shadow-2xl overflow-hidden flex h-full"
@@ -97,38 +81,5 @@
     </div>
   </body>
 
-  <script>
-    document
-      .getElementById("login-form")
-      .addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
-
-        if (!email || !password) {
-          alert("Please fill in both fields.");
-          return;
-        }
-
-        try {
-          const response = await fetch("/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-          });
-
-          const data = await response.json();
-
-          if (response.ok) {
-            alert(data.message);
-            window.location.href = "/home";
-          } else {
-            alert(data.message);
-          }
-        } catch (error) {
-          alert("Something went wrong. Please try again later.");
-        }
-      });
-  </script>
+ <script src="/js/login.js"></script>
 </html>

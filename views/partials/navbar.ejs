@@ -1,9 +1,16 @@
 <div class="w-full z-20 p-4 bg-black shadow-md">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a
+    <% if (userIsLoggedIn) { %>
+      <a
+      href="/home"
+      class="relative flex flex-col items-end -space-y-2 hover:text-red-600 hover:scale-105 transition-all duration-300"
+    >
+    <% } else { %>
+      <a
       href="/"
       class="relative flex flex-col items-end -space-y-2 hover:text-red-600 hover:scale-105 transition-all duration-300"
     >
+   <% } %>
       <div class="flex items-center text-3xl font-bold">
         <p class="text-red-600 text-4xl">M</p>
         <div
@@ -19,7 +26,7 @@
     </a>
 
     <button
-      onclick="toggleMenu()"
+      id="menu-toggle-btn2"
       class="flex items-center text-white cursor-pointer hover:text-yellow-400 transition duration-300 ml-10"
     >
       <i class="fas fa-list text-2xl"></i>

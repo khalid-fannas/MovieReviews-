@@ -1,22 +1,8 @@
-
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Movie Review</title>
-
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    
-</head>
-
+<%- include('partials/head') %>
 <body class="bg-gradient-to-b from-black to-gray-950 text-white">
     <%- include('partials/navbar') %>
-
     <div class="relative w-full py-8" style="
-        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url('https://lionsgate.brightspotcdn.com/35/72/51b31d1045a2b4593871e545ebad/john-wick-movie-bg01-portrait.jpg');
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),url('<%= movie.image_url %>');
         background-size: cover;
         background-position: start;
         background-repeat: no-repeat;
@@ -40,20 +26,27 @@
                         <div class="w-full flex justify-between">
                             <div class="flex items-center gap-2 text-yellow-400">
                                 <i class="fa-solid fa-star text-3xl"></i>
-                                <p class="text-xl font-semibold font-serif"><%= movie.average_rating %></p>
+                                <p id="avgRating" class="text-xl font-semibold font-serif"><%= movie.average_rating %></p>
                             </div>
                             <div class="flex items-center gap-2 text-yellow-400">
                                 <i class="fa-solid fa-users text-lg"></i>
-                                <p class="text-xl font-semibold font-serif"><%= movie.number_of_raters %></p>
+                                <p id="ratersNum" class="text-xl font-semibold font-serif"><%= movie.number_of_raters %></p>
                             </div>
                         </div>
-                        <div class="flex space-x-1">
-                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="1"></i>
-                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="2"></i>
-                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="3"></i>
-                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="4"></i>
-                            <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="5"></i>
+                        <div class="flex w-full justify-between items-center">
+                            <div id="ratingStar" class="flex space-x-1">
+                                <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="1"></i>
+                                <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="2"></i>
+                                <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="3"></i>
+                                <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="4"></i>
+                                <i class="fa-solid fa-star text-2xl cursor-pointer" data-rating="5"></i>
+                                
+                            </div>
+                            <i id="favoriteIcon" class="fa-solid fa-heart cursor-pointer text-3xl"></i>
                         </div>
+                        <% if (!userIsLoggedIn) { %>
+                            <p>Please log in to add rating. </p>
+                      <%  } %>
                     </div>
                 </div>
                 <div class="w-full max-w-7xl mx-auto">
@@ -66,33 +59,41 @@
                     <h2 class="text-2xl font-semibold text-yellow-300 mb-4"><%= movie.title %>
                         Reviews</h2>
                     <div class="flex flex-col gap-2">
-                        <div class="grid grid-cols-1 gap-6 w-full h-96 overflow-y-scroll">
-                            
-                            <% comments.forEach((comment , i)=>{ %>
-                                <div class="relative p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2 max-w-full break-words">
-                                    <div class="flex justify-between w-full items-center">
-                                        <a href="#" class="text-yellow-300 font-bold hover:underline">
-                                            <%= commenters[i] %>
-                                        </a>
-                                        <div>
-                                            <p class="text-gray-200 mt-2">
-                                                <%= new Date(commentTimes[i]).toLocaleDateString() %>
+                        <div id="commentsContainer" class="grid grid-cols-1 gap-6 w-full h-96 overflow-y-scroll">
+                        
+                            <% if (comments.length === 0) { %>
+                                <p id="noCommentsMessage" class="text-gray-300 break-words">No Comments Yet</p>
+                            <% } else { %>
+                                <% comments.forEach((comment, i) => { %>
+                                    <div class="relative p-4 shadow border border-gray-700 border-l-yellow-500 border-l-2 max-w-full break-words">
+                                        <div class="flex justify-between w-full items-center">
+                                            <p class="text-yellow-300 font-bold hover:underline">
+                                                <%= commenters[i] %>
                                             </p>
+                                            <div>
+                                                <% if (commentTimes.length === 0) { %>
+                                                    <%= commentTimes[i] %>
+                                                <% } else { %>
+                                                    <p class="text-gray-200 mt-2">
+                                                        <%= new Date(commentTimes[i]).toLocaleDateString() %>
+                                                    </p>
+                                                <% } %>
+                                            </div>
                                         </div>
+                                        <p class="text-gray-300 break-words">
+                                            <%= comment %>
+                                        </p>
                                     </div>
-                                    <p class="text-gray-300 break-words">
-                                        <%= comment %>
-                                    </p>
-                                </div>
-                          <%  }) %>
+                                <% }) %>
+                            <% } %>
                         </div>
                         <div class="flex flex-col gap-4 my-4">
                             <label for="comment" class="font-semibold text-xl">Add Comment</label>
                             <div class="flex gap-4">
-                                <input type="text" name="comment" id="comment" placeholder="Add Comment....."
-                                    class="border p-2 w-1/2 rounded bg-gray-300 placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                <input type="text" name="comment" id="comment" required placeholder="Add Comment....."
+                                    class="border p-2 w-1/2 rounded bg-gray-300 placeholder-gray-700 text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-500">
                                 <button
-                                    class="bg-gradient-to-t from-yellow-600 to-yellow-300 hover:from-yellow-500 hover:to-yellow-200 min-w-40 text-gray-800 font-bold rounded h-10 flex items-center justify-center">
+                                    id="commentSubmit" class="bg-gradient-to-t from-yellow-600 to-yellow-300 hover:from-yellow-500 hover:to-yellow-200 min-w-40 text-gray-800 font-bold rounded h-10 flex items-center justify-center">
                                     Submit
                                 </button>
                             </div>
@@ -104,49 +105,15 @@
         </div>
         <%- include('partials/categories.ejs')%>
     </div>
-    </div>
-    <script>
-        const stars = document.querySelectorAll('.fa-star');
-        const ratingResult = document.getElementById('rating-result');
-
-        let currentRating = 0; 
-
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                const rating = star.getAttribute('data-rating');
-                currentRating = rating; 
-
-                stars.forEach(s => {
-                    if (s.getAttribute('data-rating') <= rating) {
-                        s.classList.add('text-yellow-500'); 
-                    } else {
-                        s.classList.remove('text-yellow-500'); 
-                    }
-                });
-            });
-
-            star.addEventListener('mouseenter', () => {
-                if (currentRating === 0) { 
-                    const rating = star.getAttribute('data-rating');
-                    stars.forEach(s => {
-                        if (s.getAttribute('data-rating') <= rating) {
-                            s.classList.add('text-yellow-500');
-                        } else {
-                            s.classList.remove('text-yellow-500');
-                        }
-                    });
-                }
-            });
-
-            star.addEventListener('mouseleave', () => {
-                if (currentRating === 0) { 
-                    stars.forEach(s => {
-                        s.classList.remove('text-yellow-500'); 
-                    });
-                }
-            });
-        });
-    </script>
-
+ 
 </body>
+<script>
+    const movieId = "<%= movie.id %>";
+    const userRating = "<%= userRating %>";
+    const userHasFavorited = "<%= userHasFavorited %>";
+    const userIsLoggedIn = "<%= userIsLoggedIn %>";
+  </script>
+  
+  <script src="/js/review.js"></script>
+  
 </html>

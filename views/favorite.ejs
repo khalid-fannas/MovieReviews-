@@ -1,0 +1,82 @@
+<%- include('partials/head') %>
+<body class="relative bg-black">
+    
+    <%- include('partials/navbar') %>
+    <div class="relative">
+        <%- include('partials/categories.ejs')%>
+        
+        <div id="movies-container" class="relative w-full max-w-7xl mx-auto py-10 text-white">
+            
+            <div class="text-white flex items-center gap-2 mb-6">
+                <p class="border-l-2 border-yellow-500 px-4 text-2xl text-yellow-500 font-bold">Favorite Movies</p>
+                <i class="fas fa-chevron-right hover:text-yellow-500"></i>
+            </div>
+            
+            <% if (favoriteMovies.length === 0) { %>
+                <div class="w-fit bg-gray-800 rounded-r text-white border-l-4 border-yellow-500 h-fit p-4">
+                    <p class="text-lg"><%= message %></p>
+                </div>
+            <% } else { %>
+
+            <div id="movies-list" class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <% favoriteMovies.forEach(movie => { %>
+                        <div class="flex flex-col items-center bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                            
+                            <img src="<%= movie.image_url %>" alt="<%= movie.title %>" class="w-[95%] h-[60%] object-cover object-center" />
+
+                            <div class="flex flex-col w-full p-2 gap-1 justify-between h-[40%]">
+                                <p class="text-base font-semibold text-white"><%= movie.title %></p>
+                                
+                                <div class="flex w-full justify-between items-center">
+                                    <div class="flex gap-2 items-center text-yellow-500">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-star"></i>
+                                            <div class="ml-2 font-bold text-lg">
+                                                <p><%= movie.average_rating %></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-users"></i>
+                                            <div class="ml-2 font-bold text-lg">
+                                                <p><%= movie.number_of_raters %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">
+                                        Reviews: <span class="font-semibold text-white"><%= movie.number_of_comments %></span>
+                                    </p>
+                                </div>
+                                
+                                <div class="text-gray-300 text-sm">
+                                    <p class="flex justify-between"><strong>Category:</strong> <span><%= movie.category %></span></p>
+                                    <p class="flex justify-between">
+                                        <strong>Duration:</strong>
+                                        <span>
+                                            <% let hours = Math.floor(movie.duration / 60); let minutes = movie.duration % 60; %>
+                                            <%= hours + "h " + minutes + "m" %>
+                                        </span>
+                                    </p>
+                                    <p class="flex justify-between"><strong>Author:</strong> <span><%= movie.producer %></span></p>
+                                    <p class="flex justify-between"><strong>Year:</strong> <span><%= movie.release_year %></span></p>
+                                </div>
+                                
+                                <% if (userIsLoggedIn) { %>
+                                    <a href="/review/<%= movie.id %>" class="flex items-center justify-between w-full text-sm border rounded border-gray-700 hover:bg-gray-700 p-2">
+                                        <p>More Info</p>
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                <% } else { %>
+                                    <a href="/guestReview/<%= movie.id %>" class="flex items-center justify-between w-full text-sm border rounded border-gray-700 hover:bg-gray-700 p-2">
+                                        <p>More Info</p>
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

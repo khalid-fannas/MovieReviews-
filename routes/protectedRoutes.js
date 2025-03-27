@@ -1,48 +1,87 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const { rate } = require("../controllers/reviewController");
-const { verifyToken } = require("../middleware/authMiddleware");
-const { comment } = require("../controllers/reviewController");
-const { getMovies, getMovieDetails } = require("../service/movieService");
+const { rate, comment, favorite } = require('../controllers/reviewController');
+const { verifyToken } = require('../middleware/authMiddleware');
+const {
+  getMovies,
+  getMovieDetails,
+  getFavoriteMovies,
+} = require('../service/movieService');
 
-router.get("/home", verifyToken, async (req, res) => {
+router.get('/home', verifyToken, async (req, res) => {
   res.locals.userIsLoggedIn = true;
 
   const movies = await getMovies();
 
-  res.render("home", { user: req.user, movies });
+  res.render('home', { user: req.user, movies });
 });
 
-router.get("/review/:id", verifyToken, async (req, res) => {
+router.get('/review/:id', verifyToken, async (req, res) => {
   res.locals.userIsLoggedIn = true;
-
+  const userId = req.user.id;
   const movieId = req.params.id;
 
   try {
-    const movieDetails = await getMovieDetails(movieId);
+    const movieDetails = await getMovieDetails(movieId, userId);
 
     if (!movieDetails) {
-      return res.status(404).json({ message: "Movie not found" });
+      return res.status(404).json({ message: 'Movie not found' });
     }
 
-    res.render("review", {
+    const {
+      movie,
+      comments,
+      commenters,
+      comment_times,
+      userRating,
+      userHasFavorited,
+    } = movieDetails;
+
+    res.render('review', {
       user: req.user,
-      movie: movieDetails.movie,
-      comments: movieDetails.comments,
-      commenters: movieDetails.commenters,
-      commentTimes: movieDetails.comment_times,
+      movie,
+      comments,
+      commenters,
+      commentTimes: comment_times,
+      userRating,
+      userHasFavorited,
     });
   } catch (error) {
-    console.error("Error in route handler:", error.message);
+    console.error('Error in route handler:', error.message);
     res
       .status(500)
-      .json({ message: "An error occurred while retrieving movie details." });
+      .json({ message: 'An error occurred while retrieving movie details.' });
   }
 });
 
-router.post("/movies/:id/rate", verifyToken, rate);
+router.get('/favorite', verifyToken, async (req, res) => {
+  res.locals.userIsLoggedIn = true;
+  const userId = req.user.id;
 
-router.post("/movies/:id/comment", verifyToken, comment);
+  try {
+    const favoriteMovies = await getFavoriteMovies(userId);
+
+    if (favoriteMovies.length === 0) {
+      return res.render('favorite', {
+        message: 'No favorite movies added',
+        favoriteMovies: [],
+      });
+    }
+
+    res.render('favorite', { user: req.user, favoriteMovies });
+  } catch (error) {
+    console.error('Error in route handler:', error.message);
+    res
+      .status(500)
+      .json({ message: 'An error occurred while retrieving movie details.' });
+  }
+});
+
+router.post('/movies/:id/rate', verifyToken, rate);
+
+router.post('/movies/:id/comment', verifyToken, comment);
+
+router.post('/movies/:id/favorite', verifyToken, favorite);
 
 module.exports = router;
