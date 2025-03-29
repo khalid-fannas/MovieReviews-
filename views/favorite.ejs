@@ -2,16 +2,16 @@
 <body class="relative bg-black">
     
     <%- include('partials/navbar') %>
-    <div class="relative">
-        <%- include('partials/categories.ejs')%>
+    <div class="relative w-full bg-black">
         
-        <div id="movies-container" class="relative w-full max-w-7xl mx-auto py-10 text-white">
-            
+        <section class="bg-black text-white h-screen">      
+            <%- include('partials/categories.ejs')%>
+        <div id="movies-container" class="relative w-full max-w-7xl mx-auto py-10 text-white">       
             <div class="text-white flex items-center gap-2 mb-6">
                 <p class="border-l-2 border-yellow-500 px-4 text-2xl text-yellow-500 font-bold">Favorite Movies</p>
                 <i class="fas fa-chevron-right hover:text-yellow-500"></i>
             </div>
-            
+           
             <% if (favoriteMovies.length === 0) { %>
                 <div class="w-fit bg-gray-800 rounded-r text-white border-l-4 border-yellow-500 h-fit p-4">
                     <p class="text-lg"><%= message %></p>
@@ -76,7 +76,10 @@
                     <% }) %>
             </div>
             <% } %>
+            
         </div>
+        
+    </section>
     </div>
 </body>
 </html>

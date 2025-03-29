@@ -59,7 +59,7 @@
                     <h2 class="text-2xl font-semibold text-yellow-300 mb-4"><%= movie.title %>
                         Reviews</h2>
                     <div class="flex flex-col gap-2">
-                        <div id="commentsContainer" class="grid grid-cols-1 gap-6 w-full h-96 overflow-y-scroll">
+                        <div id="commentsContainer" class="grid grid-cols-1 gap-6 w-full h-full max-h-96 overflow-y-auto">
                         
                             <% if (comments.length === 0) { %>
                                 <p id="noCommentsMessage" class="text-gray-300 break-words">No Comments Yet</p>

@@ -1,0 +1,18 @@
+<%- include('partials/head') %>
+  <body class="relative">
+    <%- include('partials/navbar') %>
+    <div class="relative w-full bg-black">
+
+     <%- include('partials/categories.ejs')%>
+        <div
+        id="movies-container"
+        class="relative w-full max-w-7xl mx-auto py-2 text-white "
+      >
+        <div class="text-white flex items-center gap-2 text-lg">
+          <p class="border-l-2 text-2xl border-yellow-500 text-yellow-500 px-4 font-bold">All Movies</p>
+          <i class="fas fa-chevron-right hover:text-yellow-500"></i>
+        </div>
+      <%- include('partials/topMovies.ejs')%>
+    </div>
+  </body>
+</html>

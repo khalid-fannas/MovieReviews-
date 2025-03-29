@@ -1,5 +1,30 @@
 const db = require('../config/db');
 
+exports.getAllDetailsDashboard = async () => {
+  try {
+    const [movies] = await db.query('SELECT * FROM movies');
+    const [users] = await db.query('SELECT * FROM users');
+    const [commentCount] = await db.query(
+      'SELECT COUNT(*) AS total_comments FROM comments'
+    );
+    const [ratingCount] = await db.query(
+      'SELECT COUNT(*) AS total_ratings FROM ratings'
+    );
+
+    return {
+      movieCount: movies.length || 0,
+      userCount: users.length || 0,
+      commentCount: commentCount[0].total_comments || 0,
+      ratingCount: ratingCount[0].total_ratings || 0,
+      movies: movies || [],
+      users: users || [],
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch data.');
+  }
+};
+
 exports.addMovies = async (req, res) => {
   const {
     title,
@@ -24,7 +49,7 @@ exports.addMovies = async (req, res) => {
   }
 
   try {
-    const lowercaseTitle = title.toLowerCase();
+    const lowercaseTitle = title.toLowerCase().trim();
 
     const [existingMovie] = await db.query(
       'SELECT * FROM movies WHERE LOWER(title) = ?',
@@ -189,5 +214,92 @@ exports.deleteMovie = async (req, res) => {
   } catch (error) {
     console.error('Database error:', error);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+exports.changeUserRole = async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const role = req.body.role.toLowerCase();
+
+  try {
+    if (!['user', 'admin'].includes(role.toLowerCase())) {
+      return res
+        .status(400)
+        .json({ message: 'Invalid role. Allowed values: user, admin' });
+    }
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
+
+    const loggedInAdminRole = req.user.role;
+
+    const [user] = await db.query('SELECT role FROM users WHERE id = ?', [id]);
+
+    if (user.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const targetUserRole = user[0].role;
+
+    if (targetUserRole === 'admin' && loggedInAdminRole === 'admin') {
+      return res
+        .status(403)
+        .json({ message: 'You cannot change another admin’s role' });
+    }
+
+    if (targetUserRole === role) {
+      return res.status(400).json({ message: 'User already has this role' });
+    }
+
+    const [result] = await db.query('UPDATE users SET role = ? WHERE id = ?', [
+      role,
+      id,
+    ]);
+
+    if (result.affectedRows > 0) {
+      return res.json({ message: 'User role updated successfully!' });
+    } else {
+      return res.status(500).json({ message: 'Failed to update user role' });
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const loggedInAdminRole = req.user.role;
+
+  try {
+    if (isNaN(id)) {
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
+
+    const [user] = await db.query('SELECT role FROM users WHERE id = ?', [id]);
+
+    if (user.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const targetUserRole = user[0].role;
+
+    if (targetUserRole === 'admin' && loggedInAdminRole === 'admin') {
+      return res
+        .status(403)
+        .json({ message: 'Admins cannot delete other admins' });
+    }
+
+    const [result] = await db.query('DELETE FROM users WHERE id = ?', [id]);
+
+    if (result.affectedRows > 0) {
+      return res.json({ message: 'User deleted successfully!' });
+    } else {
+      return res.status(500).json({ message: 'Failed to delete user' });
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };

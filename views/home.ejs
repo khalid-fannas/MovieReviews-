@@ -2,7 +2,7 @@
   <body class="relative">
     <%- include('partials/navbar') %>
     <div class="relative w-full bg-black">
-      <%- include('partials/categories.ejs')%>
+     
       <section
         class="bg-black text-white h-screen flex items-center justify-center"
       >
@@ -16,7 +16,6 @@
           <div
             class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/100 to-black/30 bg-opacity-70"
           ></div>
-
           <div class="relative z-10 text-center px-6 sm:px-12 w-full mx-auto">
             <h1
               class="text-5xl sm:text-6xl font-extrabold mb-4 tracking-wide drop-shadow-lg"
@@ -28,22 +27,25 @@
               precise reviews and expert opinions, offering tips to choose films
               that match your personal taste.
             </p>
-            <% if(userIsLoggedIn) { %>
+
             <a
-              href="/review"
+              href="/allMovies"
               class="bg-gradient-to-t from-yellow-300 to-yellow-600 text-black px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-400 hover:to-yellow-500 active:scale-95 active:translate-y-1"
-              >Explore Our Reviews</a
+              >Explore Our Movies</a
             >
-            <% } else { %>
-            <a
-              href="/guestReview"
-              class="bg-gradient-to-t from-yellow-300 to-yellow-600 text-black px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-400 hover:to-yellow-500 active:scale-95 active:translate-y-1"
-              >Explore Our Reviews</a
-            >
-            <% } %>
+            
           </div>
         </div>
+        <%- include('partials/categories.ejs')%>
       </section>
+      <div
+        id="movies-container"
+        class="relative w-full max-w-7xl mx-auto py-2 text-white border-b-2 border-gray-700"
+        >
+      <div class="text-white flex items-center gap-2 text-lg mt-4">
+        <p class="border-l-2 text-2xl border-yellow-500 text-yellow-500 px-4 font-bold">Top 10 Movies</p>
+        <i class="fas fa-chevron-right hover:text-yellow-500"></i>
+      </div>
       <%- include('partials/topMovies.ejs')%>
     </div>
   </body>

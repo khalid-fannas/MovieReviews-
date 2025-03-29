@@ -4,21 +4,18 @@ const router = express.Router();
 const { rate, comment, favorite } = require('../controllers/reviewController');
 const { verifyToken } = require('../middleware/authMiddleware');
 const {
-  getMovies,
+  getTopTenMovies,
   getMovieDetails,
   getFavoriteMovies,
 } = require('../service/movieService');
 
 router.get('/home', verifyToken, async (req, res) => {
-  res.locals.userIsLoggedIn = true;
-
-  const movies = await getMovies();
+  const movies = await getTopTenMovies();
 
   res.render('home', { user: req.user, movies });
 });
 
 router.get('/review/:id', verifyToken, async (req, res) => {
-  res.locals.userIsLoggedIn = true;
   const userId = req.user.id;
   const movieId = req.params.id;
 
@@ -56,7 +53,6 @@ router.get('/review/:id', verifyToken, async (req, res) => {
 });
 
 router.get('/favorite', verifyToken, async (req, res) => {
-  res.locals.userIsLoggedIn = true;
   const userId = req.user.id;
 
   try {
