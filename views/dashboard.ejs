@@ -47,7 +47,7 @@
                 <h2 class="text-xl font-semibold">Users</h2>
                 <div class="flex gap-4 items-center">
                     <label for="emailFilter" class="block text-sm font-medium text-gray-600">Filter By Email :</label>
-                    <input type="email" id="emailFilter" class="mt-1 block w-80 px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter email">
+                    <input type="email" id="emailUserFilter" class="mt-1 block w-80 px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter email">
                 </div>
             </div>
             <div class="overflow-y-auto h-full max-h-72">
@@ -62,7 +62,7 @@
                            
                         </tr>
                     </thead>
-                    <tbody class="text-sm text-gray-700">
+                    <tbody id="userTableBody" class="text-sm text-gray-700">
                         <% dashboardDetails.users.forEach(user => { %>
                             <tr class="hover:bg-gray-100 transition duration-200">
                                 <td class="border p-3"><%= user.id %></td>
@@ -70,10 +70,12 @@
                                 <td class="border p-3"><%= user.email %></td>
                                 <td class="border p-3"><%= user.role %></td>
                                 <td class="border p-3 text-center">
-                                    <button class="text-green-500 hover:text-green-700 transition duration-150 mr-2">
+                                    <button class="make-admin text-green-500 hover:text-green-700 transition duration-150 mr-2">
                                         <i class="fas fa-user-shield text-lg"></i> Make Admin
                                     </button>
-                                    <button class="text-red-500 hover:text-red-700 transition duration-150"><i class="fas fa-trash text-lg"></i></button>
+                                    <button class="delete-user text-red-500 hover:text-red-700 transition duration-150">
+                                        <i class="fas fa-trash text-lg"></i> Delete
+                                    </button>
                                 </td>
                             </tr>
                         <% }) %>
@@ -83,41 +85,13 @@
             </div>
         </div>
 
-
-        <div id="userModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-                <h3 class="text-xl font-semibold text-gray-700 mb-4">Add New User</h3>
-                <form>
-                    <div class="mb-4">
-                        <label for="userName" class="block text-sm font-medium text-gray-600">Name</label>
-                        <input type="text" id="userName" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter name">
-                    </div>
-                    <div class="mb-4">
-                        <label for="userEmail" class="block text-sm font-medium text-gray-600">Email</label>
-                        <input type="email" id="userEmail" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter email">
-                    </div>
-                    <div class="mb-4">
-                        <label for="userRole" class="block text-sm font-medium text-gray-600">Role</label>
-                        <select id="userRole" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg">
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                        </select>
-                    </div>
-                    <div class="flex gap-4 justify-between w-full">
-                        <button type="button" id="closeUserModal" class="w-full p-2 px-6 bg-red-500 rounded border text-white font-bold hover:bg-red-600">Cancel</button>
-                        <button type="submit" class="w-full p-2 px-6 bg-blue-500 rounded border text-white font-bold hover:bg-blue-600">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <div class="bg-white p-6 rounded-lg shadow-lg mt-6 ">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Movies</h2>
                 <div class="flex gap-6 items-center">
                     <div class="flex gap-4 items-center">
                         <label for="titleFilter" class="block text-sm font-medium text-gray-600">Filter By Title :</label>
-                        <input type="text" id="titleFilter" class="mt-1 block w-80 px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter title">
+                        <input type="text" id="moviesTitleFilter" class="mt-1 block w-80 px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter title">
                     </div>
                     <button id="openMovieModal" class="p-2 px-6 bg-gradient-to-t from-yellow-500 to-yellow-300 rounded text-gray-700 font-bold hover:bg-yellow-400 transition duration-150">
                         Add New Movie
@@ -132,37 +106,39 @@
                             <th class="border p-3 text-left">Title</th>
                             <th class="border p-3 text-left">Description</th>
                             <th class="border p-3 text-left">Release Year</th>
+                            <th class="border p-3 text-left">Producer</th>
                             <th class="border p-3 text-left">Image URL</th>
                             <th class="border p-3 text-left">Category</th>
                             <th class="border p-3 text-left">Duration</th>
                             <th class="border p-3 text-left">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm text-gray-700">
+                    <tbody id="movieTableBody" class="text-sm text-gray-700">
                         <% dashboardDetails.movies.forEach(movie => { %>
-                        <tr class="hover:bg-gray-100 transition duration-200">
+                        <tr class="hover:bg-gray-100 transition duration-200" data-movie-id="<%= movie.id %>">
                             <td class="border p-3"><%= movie.id %></td>
                             <td class="border p-3"><input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg" value="<%= movie.title %>"></td>
                             <td class="border p-3"><input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg" value="<%= movie.description %>"></td>
                             <td class="border p-3"><input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg" value="<%= movie.release_year %>"></td>
+                            <td class="border p-3"><input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg" value="<%= movie.producer %>"></td>
                             <td class="border p-3"><input type="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg" value="<%= movie.image_url %>"></td>
                             <td class="border p-3">
                                 <select class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                    <option value="action" selected><%= movie.category %></option>
-                                    <option value="drama">Drama</option>
-                                    <option value="comedy">Comedy</option>
-                                    <option value="horror">Horror</option>
-                                    <option value="romance">Romance</option>
-                                    <option value="scifi">Sci-Fi</option>
-                                </select>
+                                    <option value="action" <%= movie.category === 'action' ? 'selected' : '' %>>Action</option>
+                                    <option value="drama" <%= movie.category === 'drama' ? 'selected' : '' %>>Drama</option>
+                                    <option value="comedy" <%= movie.category === 'comedy' ? 'selected' : '' %>>Comedy</option>
+                                    <option value="horror" <%= movie.category === 'horror' ? 'selected' : '' %>>Horror</option>
+                                    <option value="romance" <%= movie.category === 'romance' ? 'selected' : '' %>>Romance</option>
+                                    <option value="scifi" <%= movie.category === 'scifi' ? 'selected' : '' %>>Sci-Fi</option>
+                                </select>                                
                             </td>
-                            <td class="border p-3"><input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-lg" value="<%= movie.duration %>"></td>
-                            <td class="border p-3 text-center">
-                                <button class="text-green-500 hover:text-green-700 transition duration-150 mr-2">
-                                    <i class="fas fa-save text-lg"></i> Save
+                            <td class="border p-3"><input type="number" class="w-20 px-4 py-2 border border-gray-300 rounded-lg" value="<%= movie.duration %>"></td>
+                            <td class="flex w-fit h-full items-center gap-4 border p-5 text-center">
+                                <button class="flex gap-2 text-green-500 hover:text-green-700 transition duration-150 save-movie w-full h-full flex items-center justify-center">
+                                    <i class="fas fa-save text-lg pointer-events-none"></i> <span> Save</span>
                                 </button>
-                                <button class="text-red-500 hover:text-red-700 transition duration-150">
-                                    <i class="fas fa-trash text-lg"></i> Delete
+                                <button class="flex gap-2 text-red-500 hover:text-red-700 transition duration-150 delete-movie w-full h-full flex items-center justify-center">
+                                    <i class="fas fa-trash text-lg pointer-events-none"></i> Delete
                                 </button>
                             </td>
                         </tr>
@@ -172,7 +148,7 @@
                 </table>
             </div>
         </div>
-        <div id="movieModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden">
+        <div id="movieModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
                 <h3 class="text-xl font-semibold text-gray-700 mb-4">Add New Movie</h3>
                 <form>
@@ -190,6 +166,11 @@
                     <div class="mb-4">
                         <label for="movieReleaseYear" class="block text-sm font-medium text-gray-600">Release Year</label>
                         <input type="number" id="movieReleaseYear" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter release year">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="movieProducer" class="block text-sm font-medium text-gray-600">Producer</label>
+                        <input type="text" id="movieProducer" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter producer name">
                     </div>
         
                     <div class="mb-4">
@@ -225,22 +206,6 @@
     </div>
   
     </div>
-    
-        <script>
-
-        const openMovieModal = document.getElementById("openMovieModal");
-        const closeMovieModal = document.getElementById("closeMovieModal");
-        const movieModal = document.getElementById("movieModal");
-
-        // Open Movie Modal
-        openMovieModal.addEventListener("click", () => {
-            movieModal.classList.remove("hidden");
-        });
-
-        // Close Movie Modal
-        closeMovieModal.addEventListener("click", () => {
-            movieModal.classList.add("hidden");
-        });
-    </script>
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>

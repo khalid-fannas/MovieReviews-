@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
+      const message = document.getElementById('message');
 
       const urlParams = new URLSearchParams(window.location.search);
       const redirect = urlParams.get('redirect') || '/home';
@@ -25,10 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok) {
-          alert(data.message);
+          message.innerHTML = data.message;
           window.location.href = data.redirect;
         } else {
-          alert(data.message);
+          message.innerHTML = `<i class="fa-solid fa-triangle-exclamation w-5 h-5 text-center text-red-600 text-xl"></i> ${data.message}`;
         }
       } catch (error) {
         alert('Something went wrong. Please try again later.');

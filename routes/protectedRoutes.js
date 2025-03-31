@@ -12,7 +12,7 @@ const {
 router.get('/home', verifyToken, async (req, res) => {
   const movies = await getTopTenMovies();
 
-  res.render('home', { user: req.user, movies });
+  res.render('home', { user: req.user, movies, title: 'HOME PAGE' });
 });
 
 router.get('/review/:id', verifyToken, async (req, res) => {
@@ -43,6 +43,7 @@ router.get('/review/:id', verifyToken, async (req, res) => {
       commentTimes: comment_times,
       userRating,
       userHasFavorited,
+      title: 'Review',
     });
   } catch (error) {
     console.error('Error in route handler:', error.message);
@@ -62,10 +63,15 @@ router.get('/favorite', verifyToken, async (req, res) => {
       return res.render('favorite', {
         message: 'No favorite movies added',
         favoriteMovies: [],
+        title: 'Favorites',
       });
     }
 
-    res.render('favorite', { user: req.user, favoriteMovies });
+    res.render('favorite', {
+      user: req.user,
+      favoriteMovies,
+      title: 'Favorite',
+    });
   } catch (error) {
     console.error('Error in route handler:', error.message);
     res

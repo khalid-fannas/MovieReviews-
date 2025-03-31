@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/dashboard', verifyToken, isAdmin, async (req, res) => {
   try {
     const dashboardDetails = await getAllDetailsDashboard();
-    res.render('dashboard', { dashboardDetails });
+    res.render('dashboard', { dashboardDetails, title: 'Admin Dashboard' });
   } catch (error) {
     console.error(error);
     res.status(500).send('Failed to load dashboard');

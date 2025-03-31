@@ -38,7 +38,7 @@
         type="search"
         name="search"
         id="search"
-        class="w-2/3 border bg-gray-100 border-gray-300 rounded-lg px-4 py-2 pl-10 text-gray-800 shadow-sm focus:outline-none focus:border-yellow-400"
+        class="w-2/3 border bg-gray-100 border-gray-300 rounded-lg px-4 py-2 pl-10 text-gray-800 shadow-sm focus:outline-none focus:border-yellow-400 text-gray-800"
         placeholder="Search MovieReviews..."
       />
       <svg
@@ -55,9 +55,16 @@
           d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"
         />
       </svg>
+      <div id="searchResults" class="absolute bg-white border shadow-lg rounded-lg mt-2 w-2/3 hidden z-50">
+      </div>
     </div>
+    
 
     <% if (userIsLoggedIn) { %> <%- include('./userNav.ejs') %> <% } else { %>
     <%- include('./guestNav.ejs') %> <% } %>
   </div>
 </div>
+<script>
+  const userStatus = "<%=userIsLoggedIn%>"
+</script>
+<script src="../js/navbar.js"></script>

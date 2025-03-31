@@ -110,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         newCommentDiv.innerHTML = `
             <div class="flex justify-between w-full items-center">
-              <a href="#" class="text-yellow-300 font-bold hover:underline">${
+              <p  class="text-yellow-300 font-bold hover:underline">${
                 data.commenter
-              }</a>
+              }</p>
               <div>
                 <p class="text-gray-200 mt-2">${new Date(
                   data.commentTime
