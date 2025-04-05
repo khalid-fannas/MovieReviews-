@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-exports.getAllDetailsDashboard = async () => {
+exports.getAllDetailsDashboard = async (req, res) => {
   try {
     const [movies] = await db.query('SELECT * FROM movies');
     const [users] = await db.query('SELECT * FROM users');

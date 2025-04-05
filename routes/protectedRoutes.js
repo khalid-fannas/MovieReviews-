@@ -23,7 +23,7 @@ router.get('/review/:id', verifyToken, async (req, res) => {
     const movieDetails = await getMovieDetails(movieId, userId);
 
     if (!movieDetails) {
-      return res.status(404).json({ message: 'Movie not found' });
+      return res.redirect('/error?status=404&message=Movie not found');
     }
 
     const {

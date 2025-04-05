@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const categorySection = document.createElement('div');
       categorySection.innerHTML = `
         <h3 class="text-xl font-bold mb-2 text-start border-b border-gray-700">
-          ${category} Movies
+          ${category.charAt(0).toUpperCase() + category.slice(1)} Movies
         </h3>
         <ul class="list-disc text-start pl-5 space-y-2">
           ${filteredMovies[category]

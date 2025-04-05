@@ -94,6 +94,13 @@ exports.favorite = async (req, res) => {
   const movieId = req.params.id;
 
   try {
+    const [movie] = await db.query('SELECT * FROM movies WHERE id = ?', [
+      movieId,
+    ]);
+    if (movie.length === 0) {
+      return res.status(404).json({ message: 'Movie not found.' });
+    }
+
     const [existingFavorite] = await db.query(
       'SELECT * FROM favorites WHERE user_id = ? AND movie_id = ?',
       [userId, movieId]
