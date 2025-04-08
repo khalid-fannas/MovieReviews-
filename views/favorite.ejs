@@ -2,9 +2,8 @@
 <body class="relative bg-black">
     
     <%- include('partials/navbar') %>
-    <div class="relative w-full bg-black">
-        
-        <section class="bg-black text-white h-screen">      
+    <div class="relative w-full bg-black h-screen">
+        <section class="bg-black text-white min-h-[60%]">      
             <%- include('partials/categories.ejs')%>
         <div id="movies-container" class="relative w-full max-w-7xl mx-auto py-10 text-white">       
             <div class="text-white flex items-center gap-2 mb-6">
@@ -78,8 +77,8 @@
             <% } %>
             
         </div>
-        
     </section>
+        <%- include('partials/footer.ejs') %>
     </div>
 </body>
 </html>

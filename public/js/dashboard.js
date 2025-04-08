@@ -1,3 +1,71 @@
+function showAlert(message, type = 'success') {
+  let alertContainer = document.getElementById('alert-container');
+  if (!alertContainer) {
+    alertContainer = document.createElement('div');
+    alertContainer.id = 'alert-container';
+    alertContainer.className = 'fixed top-5 right-5 z-50 space-y-4';
+    document.body.appendChild(alertContainer);
+  }
+
+  const alertBox = document.createElement('div');
+  alertBox.textContent = message;
+
+  let bgColor = 'bg-green-500';
+  if (type === 'error') bgColor = 'bg-red-500';
+  else if (type === 'warning') bgColor = 'bg-yellow-500';
+  else if (type === 'info') bgColor = 'bg-blue-500';
+
+  alertBox.className = `flex w-full px-4 py-3 rounded-lg shadow-lg text-white transition-all duration-300 ${bgColor} opacity-100`;
+  alertBox.setAttribute('role', 'alert');
+  alertContainer.appendChild(alertBox);
+
+  setTimeout(() => {
+    alertBox.classList.add('opacity-0');
+    setTimeout(() => {
+      alertBox.remove();
+    }, 1000);
+  }, 2000);
+}
+
+function showConfirmation(message, callback) {
+  const confirmationBox = document.getElementById('custom-confirmation');
+  const confirmBtn = document.getElementById('confirm-btn');
+  const cancelBtn = document.getElementById('cancel-btn');
+  const messageElement = document.getElementById('confirmation-message');
+
+  messageElement.textContent = message;
+
+  confirmationBox.classList.remove('hidden');
+
+  confirmBtn.onclick = () => {
+    callback(true);
+    confirmationBox.classList.add('hidden');
+  };
+
+  cancelBtn.onclick = () => {
+    callback(false);
+    confirmationBox.classList.add('hidden');
+  };
+}
+
+function showFormAlert(message, type = 'success') {
+  const alertBox = document.getElementById('custom-form-alert');
+
+  alertBox.textContent = message;
+
+  let bgColor = 'bg-green-500';
+  if (type === 'error') bgColor = 'text-red-500';
+  else if (type === 'warning') bgColor = 'bg-yellow-500';
+  else if (type === 'info') bgColor = 'bg-blue-500';
+
+  alertBox.className = `flex ${bgColor}`;
+  alertBox.classList.remove('hidden');
+
+  setTimeout(() => {
+    alertBox.classList.add('hidden');
+  }, 2000);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const movieModal = document.getElementById('movieModal');
   const openMovieModal = document.getElementById('openMovieModal');
@@ -44,14 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert('Movie added successfully!');
-        location.reload();
+        showAlert('Movie added successfully!', 'success');
+        movieModal.classList.add('hidden');
       } else {
-        alert(`Error: ${result.message || 'Failed to add movie'}`);
+        showFormAlert(`${result.message || 'Failed to add movie'}`, 'error');
       }
     } catch (error) {
       console.error('Error adding movie:', error);
-      alert('Something went wrong. Try again.');
+      showFormAlert('Something went wrong. Try again.', 'error');
     }
   });
 
@@ -87,37 +155,45 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const result = await response.json();
       if (response.ok) {
-        alert('Movie updated successfully!');
+        showAlert('Movie updated successfully!', 'success');
       } else {
-        alert(`Error: ${result.message || 'Failed to update movie'}`);
+        showAlert(`${result.message || 'Failed to update movie'}`, 'error');
       }
     } catch (error) {
       console.error('Error updating movie:', error);
-      alert('Something went wrong. Try again.');
+      showAlert('Something went wrong. Try again.', 'error');
     }
   }
 
   async function deleteMovie(movieRow) {
     const movieId = movieRow.dataset.movieId;
 
-    if (!confirm('Are you sure you want to delete this movie?')) return;
+    showConfirmation(
+      'Are you sure you want to delete this movie?',
+      async (confirmed) => {
+        if (confirmed) {
+          try {
+            const response = await fetch(`/admin/deleteMovie/${movieId}`, {
+              method: 'DELETE',
+            });
 
-    try {
-      const response = await fetch(`/admin/deleteMovie/${movieId}`, {
-        method: 'DELETE',
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        alert('Movie deleted successfully!');
-        movieRow.remove();
-      } else {
-        alert(`Error: ${result.message || 'Failed to delete movie'}`);
+            const result = await response.json();
+            if (response.ok) {
+              showAlert('Movie deleted successfully!', 'success');
+              movieRow.remove();
+            } else {
+              showAlert(
+                `Error: ${result.message || 'Failed to delete movie'}`,
+                'error'
+              );
+            }
+          } catch (error) {
+            console.error('Error deleting movie:', error);
+            showAlert('Something went wrong. Try again.', 'error');
+          }
+        }
       }
-    } catch (error) {
-      console.error('Error deleting movie:', error);
-      alert('Something went wrong. Try again.');
-    }
+    );
   }
 
   movieTable.addEventListener('click', (event) => {
@@ -137,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const userTableBody = document.getElementById('userTableBody');
 
   async function makeAdmin(userId) {
+    const button = document.getElementById(`make-admin-${userId}`);
     try {
       const response = await fetch(`/admin/userRole/${userId}`, {
         method: 'PATCH',
@@ -149,39 +226,58 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.message);
-        alert(data.message);
-        location.reload();
+        showAlert(data.message, 'success');
+
+        button.className = '';
+        button.classList.add(
+          'make-admin',
+          'text-gray-500',
+          'cursor-not-allowed'
+        );
+        button.innerHTML =
+          '<i class="fas fa-user-shield text-lg"></i> Already Admin';
+        button.disabled = true;
       } else {
-        alert(`Error: ${data.message || 'Failed to update user role'}`);
+        showAlert(
+          `Error: ${data.message || 'Failed to update user role'}`,
+          'error'
+        );
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Something went wrong. Try again.');
+      showAlert('Something went wrong. Try again.', 'error');
     }
   }
 
-  async function deleteUser(userId) {
-    if (!confirm('Are you sure you want to delete this user?')) return;
+  async function deleteUser(userId, userRow) {
+    showConfirmation(
+      'Are you sure you want to delete this user?',
+      async (confirmed) => {
+        if (confirmed) {
+          try {
+            const response = await fetch(`/admin/deleteUser/${userId}`, {
+              method: 'DELETE',
+            });
 
-    try {
-      const response = await fetch(`/admin/deleteUser/${userId}`, {
-        method: 'DELETE',
-      });
+            const data = await response.json();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log(data.message);
-        alert(data.message);
-        location.reload();
-      } else {
-        alert(`Error: ${data.message || 'Failed to delete user'}`);
+            if (response.ok) {
+              console.log(data.message);
+              showAlert('User deleted successfully!', 'success');
+              userRow.remove();
+            } else {
+              showAlert(
+                `Error: ${result.message || 'Failed to delete user'}`,
+                'error'
+              );
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Something went wrong. Try again.');
+          }
+        }
       }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Something went wrong. Try again.');
-    }
+    );
   }
 
   emailFilterInput.addEventListener('input', function () {
@@ -220,7 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (event.target.closest('.delete-user')) {
       const userId = event.target.closest('tr').querySelector('td').textContent;
-      deleteUser(userId);
+      const userRow = event.target.closest('tr');
+      deleteUser(userId, userRow);
     }
   });
 });

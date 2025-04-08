@@ -60,6 +60,8 @@ exports.addMovies = async (req, res) => {
       return res.status(400).json({ message: 'Movie already exists!' });
     }
 
+    const lowercaseCategory = category.toLowerCase().trim();
+
     const [result] = await db.query(
       `INSERT INTO movies (title, description, release_year, producer, image_url, category, duration)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -69,7 +71,7 @@ exports.addMovies = async (req, res) => {
         release_year,
         producer,
         image_url,
-        category,
+        lowercaseCategory,
         duration,
       ]
     );
@@ -116,6 +118,17 @@ exports.updateMovie = async (req, res) => {
 
     if (movie.length === 0) {
       return res.status(404).json({ message: 'Movie not found' });
+    }
+
+    if (title && title.toLowerCase() !== movie[0].title.toLowerCase()) {
+      const [existingMovie] = await db.query(
+        'SELECT * FROM movies WHERE LOWER(title) = LOWER(?) AND id != ?',
+        [title, id]
+      );
+
+      if (existingMovie.length > 0) {
+        return res.status(404).json({ message: 'Title already exists' });
+      }
     }
 
     let hasChanges = false;

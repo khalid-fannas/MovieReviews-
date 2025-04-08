@@ -18,11 +18,15 @@
           ></div>
           <div class="relative z-10 text-center px-6 sm:px-12 w-full mx-auto">
             <h1
-              class="text-5xl sm:text-6xl font-extrabold mb-4 tracking-wide drop-shadow-lg"
+              class="text-5xl sm:text-6xl font-extrabold mb-4 tracking-wide drop-shadow-lg opacity-0 animate-fadeInUp"
             >
               The Best Movie Reviews to Choose the Perfect Film
             </h1>
-            <p class="text-xl sm:text-2xl mb-6 drop-shadow-lg">
+
+            <p
+                class="text-xl sm:text-2xl mb-6 drop-shadow-lg opacity-0 animate-fadeInUp"
+                style="animation-delay: 0.3s;"
+              >
               We are here to help you discover your favorite movies through
               precise reviews and expert opinions, offering tips to choose films
               that match your personal taste.
@@ -30,9 +34,9 @@
 
             <a
               href="/allMovies"
-              class="bg-gradient-to-t from-yellow-300 to-yellow-600 text-black px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-400 hover:to-yellow-500 active:scale-95 active:translate-y-1"
-              >Explore Our Movies</a
-            >
+              class="bg-gradient-to-t from-yellow-300 to-yellow-600 text-black px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition duration-300 hover:scale-105 hover:from-yellow-400 hover:to-yellow-500 active:scale-95 active:translate-y-1 opacity-0 animate-fadeInUp"
+              style="animation-delay: 0.6s;"
+            >Explore Our Movies</a>
             
           </div>
         </div>
@@ -48,6 +52,7 @@
       </div>
       <%- include('partials/topMovies.ejs')%>
     </div>
+    <%- include('partials/footer.ejs') %>
   </body>
   <script src="/js/home.js"></script>
 </html>
